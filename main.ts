@@ -1,4 +1,6 @@
-const char = ["n", "o", "p", "q", "r", "s","0", "1", "2", "3", "4", "5","M", "N", "O", "P","6", "7", "8", "9", "~", "!","t", "u", "v", "w", "x", "y","@", "#", "$", "%", "^", "&","Q", "R", "S", "T","b", "c", "d", "e", "f", "g","*", "(", ")", "_", "-", "+","U", "V", "W", "X","=", "{", "}", "[", "]", "|","h", "i", "j", "k", "l", "m","\\", ":", ";", "'", "\"", ",","I", "J", "K", "L","<", ".", ">", "/", "?", "a","z", " ", "A", "B", "C", "D","E", "F", "G", "H","Y", "Z",]
+import jsSha512 from 'js-sha512'
+
+const char = ["n", "o", "p", "q", "r", "s", "0", "1", "2", "3", "4", "5", "M", "N", "O", "P", "6", "7", "8", "9", "~", "!", "t", "u", "v", "w", "x", "y", "@", "#", "$", "%", "^", "&", "Q", "R", "S", "T", "b", "c", "d", "e", "f", "g", "*", "(", ")", "_", "-", "+", "U", "V", "W", "X", "=", "{", "}", "[", "]", "|", "h", "i", "j", "k", "l", "m", "\\", ":", ";", "'", "\"", ",", "I", "J", "K", "L", "<", ".", ">", "/", "?", "a", "z", " ", "A", "B", "C", "D", "E", "F", "G", "H", "Y", "Z",]
 
 interface EncryptProp {
 	text: string;
@@ -57,14 +59,31 @@ export class Encrypt {
 }
 
 
-const main = (arg: string) => {
-	let encr = new Encrypt({ text: arg, cipher: 0, reparation: 5 })
-	let data = encr.encrypt()
-	console.log(encr.text, encr.reparation, encr.cipher);
-
-	console.log(data);
+export const EncryptObject = (obj: any) => {
+	let newObj: any = {};
+	for (const key in obj) {
+		if (key == "password") {
+			let hash = jsSha512.sha512.update(obj[key])
+			newObj[key] = hash.hex();
+		} else {
+			let text = new Encrypt({ text: obj[key], cipher: 0, reparation: 0 })
+			newObj[key] = text.encrypt();
+		}
+	}
+	return newObj;
 }
-main("my text");
+
+
+const main = (arg: string) => {
+	let data = {
+		email: "user@mail.com",
+		name: "user name",
+		password: "pwd123"
+	}
+	let result = EncryptObject(data)
+	console.log(result);
+}
+main("arunberry47@gmail.com");
 
 
 

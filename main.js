@@ -1,6 +1,10 @@
 "use strict";
-exports.__esModule = true;
-exports.Encrypt = void 0;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EncryptObject = exports.Encrypt = void 0;
+var js_sha512_1 = __importDefault(require("js-sha512"));
 var char = ["n", "o", "p", "q", "r", "s", "0", "1", "2", "3", "4", "5", "M", "N", "O", "P", "6", "7", "8", "9", "~", "!", "t", "u", "v", "w", "x", "y", "@", "#", "$", "%", "^", "&", "Q", "R", "S", "T", "b", "c", "d", "e", "f", "g", "*", "(", ")", "_", "-", "+", "U", "V", "W", "X", "=", "{", "}", "[", "]", "|", "h", "i", "j", "k", "l", "m", "\\", ":", ";", "'", "\"", ",", "I", "J", "K", "L", "<", ".", ">", "/", "?", "a", "z", " ", "A", "B", "C", "D", "E", "F", "G", "H", "Y", "Z",];
 var Encrypt = /** @class */ (function () {
     function Encrypt(data) {
@@ -50,10 +54,28 @@ var Encrypt = /** @class */ (function () {
     return Encrypt;
 }());
 exports.Encrypt = Encrypt;
-var main = function (arg) {
-    var encr = new Encrypt({ text: arg, cipher: 0, reparation: 5 });
-    var data = encr.encrypt();
-    console.log(encr.text, encr.reparation, encr.cipher);
-    console.log(data);
+var EncryptObject = function (obj) {
+    var newObj = {};
+    for (var key in obj) {
+        if (key == "password") {
+            var hash = js_sha512_1.default.sha512.update(obj[key]);
+            newObj[key] = hash.hex();
+        }
+        else {
+            var text = new Encrypt({ text: obj[key], cipher: 0, reparation: 0 });
+            newObj[key] = text.encrypt();
+        }
+    }
+    return newObj;
 };
-main("my text");
+exports.EncryptObject = EncryptObject;
+var main = function (arg) {
+    var data = {
+        email: "user@mail.com",
+        name: "user name",
+        password: "pwd123"
+    };
+    var result = (0, exports.EncryptObject)(data);
+    console.log(result);
+};
+main("arunberry47@gmail.com");
