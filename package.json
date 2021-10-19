@@ -1,0 +1,25 @@
+{
+  "name": "crypto-with-go",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "tsc": "^2.0.3",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/just-arun/encrypt-decrypt-str-go.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/just-arun/encrypt-decrypt-str-go/issues"
+  },
+  "homepage": "https://github.com/just-arun/encrypt-decrypt-str-go#readme"
+}
